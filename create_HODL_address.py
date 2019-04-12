@@ -30,7 +30,7 @@ def main(key, lock, is_priv = False):
 
   # create a P2SH address from a redeem script
   addr = P2shAddress.from_script(redeem_script)
-  print('Time-locked address: ' + addr.to_address())
+  print('Time-locked address: {}'.format(addr.to_address()))
 
 
 if __name__ == "__main__":

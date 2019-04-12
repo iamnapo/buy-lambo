@@ -81,19 +81,19 @@ def main(key, lock, from_addr, to_addr):
   signed_tx = tx.serialize()
 
   # print raw transaction
-  print("\nRaw unsigned transaction:\n" + Transaction(txin, [txout]).serialize())
+  print("\nRaw unsigned transaction:\n{}".format(Transaction(txin, [txout]).serialize()))
 
   # print raw signed transaction ready to be broadcasted
-  print("\nRaw signed transaction:\n" + signed_tx)
-  print("\nTxId:", tx.get_txid())
+  print("\nRaw signed transaction:\n{}".format(signed_tx))
+  print("\nTxId: {}".format(tx.get_txid()))
 
   # Check if is valid and send it
   if chain.testmempoolaccept([signed_tx])[0]["allowed"]:
     chain.sendrawtransaction(signed_tx)
-    print("\nSent to Block-chain!")
+    print("\nSent to Block-chain! Have fun with those {} BTC.".format(total_btc - fee))
   else:
     print("\nCan't send (yet)!")
-    print("Reason: `" + chain.testmempoolaccept([signed_tx])[0]["reject-reason"] + "`.")
+    print("Reason: `{}`".format(chain.testmempoolaccept([signed_tx])[0]["reject-reason"]))
 
 
 if __name__ == "__main__":
