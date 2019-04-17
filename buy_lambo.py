@@ -26,6 +26,14 @@ def main(key, lock, from_addr, to_addr):
     print('Error: Node isn\'t working!')
     return
 
+  # Check addresses
+  if not chain.checkaddress(from_addr)["isvalid"]:
+    print('Error: `from_addr` is not a valid address!')
+    return
+  if not chain.checkaddress(to_addr)["isvalid"]:
+    print('Error: `to_addr` is not a valid address!')
+    return
+
   # Set lock sequence prefix
   seq = Sequence(TYPE_ABSOLUTE_TIMELOCK, lock)
 
@@ -37,7 +45,7 @@ def main(key, lock, from_addr, to_addr):
   chain.importaddress(from_addr)
 
   # Get UTXOs
-  utxos = [tx for tx in chain.listunspent() if tx["address"] == from_addr]
+  utxos = chain.listunspent(address = from_addr)
 
   # Create inputs
   txin = []
