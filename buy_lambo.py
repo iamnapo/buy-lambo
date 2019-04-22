@@ -27,10 +27,10 @@ def main(key, lock, from_addr, to_addr):
     return
 
   # Check addresses
-  if not chain.checkaddress(from_addr)["isvalid"]:
+  if not chain.validateaddress(from_addr)["isvalid"]:
     print('Error: `from_addr` is not a valid address!')
     return
-  if not chain.checkaddress(to_addr)["isvalid"]:
+  if not chain.validateaddress(to_addr)["isvalid"]:
     print('Error: `to_addr` is not a valid address!')
     return
 
@@ -45,7 +45,7 @@ def main(key, lock, from_addr, to_addr):
   chain.importaddress(from_addr)
 
   # Get UTXOs
-  utxos = chain.listunspent(address = from_addr)
+  utxos = chain.listunspent(addresses = [from_addr])
 
   # Create inputs
   txin = []
