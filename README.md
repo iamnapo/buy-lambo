@@ -2,7 +2,7 @@
 
 > Scripts to create a BTC address whose assets are locked until a specified time (or block) and after that time, transfer all funds to another address.
 
-[![Travis](https://img.shields.io/travis/com/iamnapo/buy-lambo.svg?style=flat-square&logo=travis&label=)](https://travis-ci.com/iamnapo/buy-lambo) [![license](https://img.shields.io/github/license/iamnapo/buy-lambo.svg?style=flat-square)](./LICENSE)
+[![Travis](https://img.shields.io/travis/com/iamnapo/buy-lambo.svg?style=for-the-badge&logo=travis&label=)](https://travis-ci.com/iamnapo/buy-lambo) [![license](https://img.shields.io/github/license/iamnapo/buy-lambo.svg?style=for-the-badge)](./LICENSE)
 
 ## Install
 
@@ -13,14 +13,14 @@
 
 ## Usage
 
-```bash
+```sh
 $ python3 create_HODL_address.py --help
 $ python3 buy_lambo.py --help
 ```
 
 ## Example
 
-```bash
+```sh
 $ python3 create_HODL_address.py --priv_key cNxmxYnXjdH8j1JwumuSF5HtLpjSDHv7x4ZWUQSf16mF4RxaYFnt --lock 1735689600
 Time-locked address: 2MstzXj1jLkqnBgyaJFWmwkKSL9RsEv3XaE
 ```
@@ -29,7 +29,7 @@ Send BTCs to that address through the years...
 
 At 01/01/2025:
 
-```bash
+```sh
 $ python3 buy_lambo.py --priv_key cNxmxYnXjdH8j1JwumuSF5HtLpjSDHv7x4ZWUQSf16mF4RxaYFnt --lock 1735689600 --from_addr 2MstzXj1jLkqnBgyaJFWmwkKSL9RsEv3XaE --to_addr mmadWC5qCn2JHr6mC3v4vba35wa71xATGb
 Raw unsigned transaction:
 02000000031ea3eebed927cd62c43f693232bd921890289a104cff95730bc036cdf5fc62720000000000feffffff7713218148c956ed72a9c2748d516ef97a583812897928325c88526aff2f45bf0100000000feffffff865e9116b42b6969c73a98769a55fe16295d0199556b3f5834d2b0e338d131c80100000000feffffff01c03a0cae040000001976a9144282bb9b8202cfd5fb04eafc91a87018bed4a53488ac00000000
