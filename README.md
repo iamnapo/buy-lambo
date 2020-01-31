@@ -6,10 +6,10 @@
 
 ## Install
 
-* Install (and run) [Bitcoin Core](https://bitcoin.org/en/bitcoin-core/)
-* Install [Python 3](https://www.python.org/downloads/)
-* Run `pip3 install -r requirements.txt`
-* Configure `.env.sample` and rename it to `.env`
+- Install (and run) [Bitcoin Core](https://bitcoin.org/en/bitcoin-core/)
+- Install [Python 3](https://www.python.org/downloads/)
+- Run `pip3 install -r requirements.txt`
+- Configure `.env.sample` and rename it to `.env`
 
 ## Usage
 
