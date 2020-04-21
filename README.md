@@ -2,7 +2,7 @@
 
 > Scripts to create a BTC address whose assets are locked until a specified time (or block) and after that time, transfer all funds to another address.
 
-[![Travis](https://img.shields.io/travis/com/iamnapo/buy-lambo.svg?style=for-the-badge&logo=travis&label=)](https://travis-ci.com/iamnapo/buy-lambo) [![license](https://img.shields.io/github/license/iamnapo/buy-lambo.svg?style=for-the-badge)](./LICENSE)
+[![build](https://img.shields.io/github/workflow/status/iamnapo/buy-lambo/Install%20%26%20test?style=for-the-badge&logo=github&label=)](https://github.com/iamnapo/buy-lambo/actions) [![license](https://img.shields.io/github/license/iamnapo/buy-lambo.svg?style=for-the-badge)](./LICENSE)
 
 ## Install
 
