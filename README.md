@@ -43,7 +43,3 @@ Sent to Block-chain! Have fun with those 200.99906240 BTC.
 ```
 
 [Buy Lamborghini](https://www.lamborghini.com/en-en/ownership/dealer-locator)
-
-## License
-
-MIT © [Napoleon-Christos Oikonomou](https://iamnapo.me)
