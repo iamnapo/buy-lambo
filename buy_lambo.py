@@ -1,5 +1,6 @@
 import os
 from argparse import ArgumentParser
+from decimal import Decimal
 
 import requests
 from bitcoinutils.constants import SATOSHIS_PER_BITCOIN, TYPE_ABSOLUTE_TIMELOCK
@@ -47,11 +48,11 @@ def main(key, lock, from_addr, to_addr):
     chain.importaddress(from_addr)
 
     # Get UTXOs
-    utxos = chain.listunspent(addresses=[from_addr])
+    utxos = chain.listunspent(1, 9999999, [from_addr])
 
     # Create inputs
     txin = []
-    total_btc = 0
+    total_btc = Decimal(0)
     for utxo in utxos:
         # Note that for each input we set the correct nSequence
         txin.append(
@@ -63,7 +64,9 @@ def main(key, lock, from_addr, to_addr):
         return print("\nThere aren't any UTXOs :(.")
 
     # Create a fee-less output
-    txout = TxOutput(total_btc - 0.1, P2pkhAddress(to_addr).to_script_pub_key())
+    txout = TxOutput(
+        total_btc - Decimal(0.1), P2pkhAddress(to_addr).to_script_pub_key()
+    )
 
     # Create dummy transaction (to calculate size)
     tx = Transaction(
@@ -96,8 +99,11 @@ def main(key, lock, from_addr, to_addr):
     sat_per_byte = requests.get(
         "https://bitcoinfees.earn.com/api/v1/fees/recommended"
     ).json()["fastestFee"]
-    fee = max(
-        (len(bytes.fromhex(tx.serialize())) * sat_per_byte) / SATOSHIS_PER_BITCOIN, 0
+    fee = Decimal(
+        max(
+            (len(bytes.fromhex(tx.serialize())) * sat_per_byte) / SATOSHIS_PER_BITCOIN,
+            0,
+        )
     )
     if fee == 0:
         print("WARNING: There isn't enough balance to calculate fees.")
