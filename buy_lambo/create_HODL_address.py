@@ -12,7 +12,7 @@ load_dotenv()
 
 
 def create_HODL_address(key, lock, is_priv=False):
-    setup(os.getenv("BTC_NET", "regtest"))
+    setup(os.getenv("BUY_LAMBO_BTC_NET", "regtest"))
 
     # Get public key (given or found from private key)
     public_key = PrivateKey(key).get_public_key() if is_priv else PublicKey(key)

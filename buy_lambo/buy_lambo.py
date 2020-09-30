@@ -15,11 +15,11 @@ load_dotenv()
 
 
 def buy_lambo(key, lock, from_addr, to_addr):
-    setup(os.getenv("BTC_NET", "regtest"))
+    setup(os.getenv("BUY_LAMBO_BTC_NET", "regtest"))
 
     # Create a proxy to JSON-RPC api
     chain = NodeProxy(
-        os.getenv("RPC_USER", "rpcuser"), os.getenv("RPC_PASSWORD", "rpcpassword")
+        os.getenv("BUY_LAMBO_RPC_USER", "rpcuser"), os.getenv("BUY_LAMBO_RPC_PASSWORD", "rpcpassword")
     ).get_proxy()
 
     # Try executing a command to see if node is running

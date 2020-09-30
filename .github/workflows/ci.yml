@@ -1,15 +1,9 @@
-name: Install & test
+name: ci
 
-on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    paths-ignore:
-      - "*.md"
+on: push
+
 jobs:
-  test:
-    name: Test
+  ci:
     runs-on: ubuntu-latest
     strategy:
       matrix:

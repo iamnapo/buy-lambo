@@ -1,27 +1,34 @@
 # buy-lambo
 
-> Scripts to create a BTC address whose assets are locked until a specified time (or block) and after that time, transfer all funds to another address.
+> Scripts to create a BTC address whose assets are locked until a specified time (or block) and after that time, transfer all funds to another address
 
-[![build](https://img.shields.io/github/workflow/status/iamnapo/buy-lambo/Install%20%26%20test?style=for-the-badge&logo=github&label=)](https://github.com/iamnapo/buy-lambo/actions) [![license](https://img.shields.io/github/license/iamnapo/buy-lambo.svg?style=for-the-badge)](./LICENSE)
+[![build](https://img.shields.io/github/workflow/status/iamnapo/buy-lambo/ci?style=for-the-badge&logo=github&label=)](https://github.com/iamnapo/buy-lambo/actions) [![license](https://img.shields.io/github/license/iamnapo/buy-lambo.svg?style=for-the-badge)](./LICENSE)
 
 ## Install
 
 - Install (and run) [Bitcoin Core](https://bitcoin.org/en/bitcoin-core/)
 - Install [Python 3](https://www.python.org/downloads/)
-- Run `pip3 install -r requirements.txt`
-- Configure `.env.sample` and rename it to `.env`
+- Run `python3 -m pip install git+https://github.com/iamnapo/buy-lambo`
+- Configure the require environment variables as shown in `.env.sample`
 
 ## Usage
 
 ```sh
-$ python3 buy_lambo/create_HODL_address.py --help
-$ python3 buy_lambo/buy_lambo.py --help
+$ create_HODL_address --help
+$ buy_lambo --help
+```
+
+```python
+from buy_lambo import buy_lambo, create_HODL_address
+
+buy_lambo(key, lock, from_addr, to_addr)
+create_HODL_address(key, lock, is_priv=False)
 ```
 
 ## Example
 
 ```sh
-$ python3 buy_lambo/create_HODL_address.py --priv_key cNxmxYnXjdH8j1JwumuSF5HtLpjSDHv7x4ZWUQSf16mF4RxaYFnt --lock 1735689600
+$ create_HODL_address --priv_key cNxmxYnXjdH8j1JwumuSF5HtLpjSDHv7x4ZWUQSf16mF4RxaYFnt --lock 1735689600
 Time-locked address: 2MstzXj1jLkqnBgyaJFWmwkKSL9RsEv3XaE
 ```
 
@@ -30,7 +37,7 @@ Send BTCs to that address through the years...
 At 01/01/2025:
 
 ```sh
-$ python3 buy_lambo/buy_lambo.py --priv_key cNxmxYnXjdH8j1JwumuSF5HtLpjSDHv7x4ZWUQSf16mF4RxaYFnt --lock 1735689600 --from_addr 2MstzXj1jLkqnBgyaJFWmwkKSL9RsEv3XaE --to_addr mmadWC5qCn2JHr6mC3v4vba35wa71xATGb
+$ buy_lambo --priv_key cNxmxYnXjdH8j1JwumuSF5HtLpjSDHv7x4ZWUQSf16mF4RxaYFnt --lock 1735689600 --from_addr 2MstzXj1jLkqnBgyaJFWmwkKSL9RsEv3XaE --to_addr mmadWC5qCn2JHr6mC3v4vba35wa71xATGb
 Raw unsigned transaction:
 02000000031ea3eebed927cd62c43f693232bd921890289a104cff95730bc036cdf5fc62720000000000feffffff7713218148c956ed72a9c2748d516ef97a583812897928325c88526aff2f45bf0100000000feffffff865e9116b42b6969c73a98769a55fe16295d0199556b3f5834d2b0e338d131c80100000000feffffff01c03a0cae040000001976a9144282bb9b8202cfd5fb04eafc91a87018bed4a53488ac00000000
 
