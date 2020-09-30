@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def main(key, lock, is_priv=False):
+def create_HODL_address(key, lock, is_priv=False):
     setup(os.getenv("BTC_NET", "regtest"))
 
     # Get public key (given or found from private key)
@@ -64,4 +64,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    main(key=args.priv_key, lock=args.lock, is_priv=args.priv_key)
+    create_HODL_address(key=args.priv_key, lock=args.lock, is_priv=args.priv_key)

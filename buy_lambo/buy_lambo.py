@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def main(key, lock, from_addr, to_addr):
+def buy_lambo(key, lock, from_addr, to_addr):
     setup(os.getenv("BTC_NET", "regtest"))
 
     # Create a proxy to JSON-RPC api
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    main(
+    buy_lambo(
         key=args.priv_key,
         lock=args.lock,
         from_addr=args.from_addr,

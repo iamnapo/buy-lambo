@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser
+
+from buy_lambo import buy_lambo
+
+parser = ArgumentParser()
+parser.add_argument(
+    "--priv_key", dest="priv_key", required=True, type=str, help="Private key used."
+)
+parser.add_argument(
+    "--lock",
+    dest="lock",
+    required=True,
+    type=int,
+    help="Time used to lock the address. If <500 million is treated as block height, else as UNIX time.",
+)
+parser.add_argument(
+    "--from_addr",
+    dest="from_addr",
+    required=True,
+    type=str,
+    help="Address to get from.",
+)
+parser.add_argument(
+    "--to_addr", dest="to_addr", required=True, type=str, help="Address to send to."
+)
+args = parser.parse_args()
+
+buy_lambo(
+    key=args.priv_key, lock=args.lock, from_addr=args.from_addr, to_addr=args.to_addr,
+)

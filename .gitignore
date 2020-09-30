@@ -1,3 +1,6 @@
 .idea
 .env
 btc.txt
+*.pyc
+/dist/
+/*.egg-info
