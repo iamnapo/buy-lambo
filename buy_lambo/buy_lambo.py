@@ -19,7 +19,8 @@ def buy_lambo(key, lock, from_addr, to_addr):
 
     # Create a proxy to JSON-RPC api
     chain = NodeProxy(
-        os.getenv("BUY_LAMBO_RPC_USER", "rpcuser"), os.getenv("BUY_LAMBO_RPC_PASSWORD", "rpcpassword")
+        os.getenv("BUY_LAMBO_RPC_USER", "rpcuser"),
+        os.getenv("BUY_LAMBO_RPC_PASSWORD", "rpcpassword"),
     ).get_proxy()
 
     # Try executing a command to see if node is running
