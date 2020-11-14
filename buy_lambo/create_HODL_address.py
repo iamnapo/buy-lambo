@@ -1,5 +1,4 @@
 import os
-from argparse import ArgumentParser
 
 from bitcoinutils.constants import TYPE_ABSOLUTE_TIMELOCK
 from bitcoinutils.keys import P2shAddress, PrivateKey, PublicKey
@@ -40,28 +39,3 @@ def create_HODL_address(key, lock, is_priv=False):
     # create a P2SH address from a redeem script
     addr = P2shAddress.from_script(redeem_script)
     print("Time-locked address: {}".format(addr.to_string()))
-
-
-if __name__ == "__main__":
-    parser = ArgumentParser()
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument(
-        "--pub_key", dest="pub_key", default=None, type=str, help="Public key to use."
-    )
-    group.add_argument(
-        "--priv_key",
-        dest="priv_key",
-        default=None,
-        type=str,
-        help="Private key to use.",
-    )
-    parser.add_argument(
-        "--lock",
-        dest="lock",
-        required=True,
-        type=int,
-        help="Time used to lock the address. If <500 million is treated as block height, else as UNIX time.",
-    )
-    args = parser.parse_args()
-
-    create_HODL_address(key=args.priv_key, lock=args.lock, is_priv=args.priv_key)

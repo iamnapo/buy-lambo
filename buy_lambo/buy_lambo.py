@@ -1,5 +1,4 @@
 import os
-from argparse import ArgumentParser
 from decimal import Decimal
 
 import requests
@@ -18,10 +17,7 @@ def buy_lambo(key, lock, from_addr, to_addr):
     setup(os.getenv("BUY_LAMBO_BTC_NET", "regtest"))
 
     # Create a proxy to JSON-RPC api
-    chain = NodeProxy(
-        os.getenv("BUY_LAMBO_RPC_USER", "rpcuser"),
-        os.getenv("BUY_LAMBO_RPC_PASSWORD", "rpcpassword"),
-    ).get_proxy()
+    chain = NodeProxy(os.getenv("BUY_LAMBO_RPC_USER", "rpcuser"), os.getenv("BUY_LAMBO_RPC_PASSWORD", "rpcpassword")).get_proxy()
 
     # Try executing a command to see if node is running
     try:
@@ -56,25 +52,18 @@ def buy_lambo(key, lock, from_addr, to_addr):
     total_btc = Decimal(0)
     for utxo in utxos:
         # Note that for each input we set the correct nSequence
-        txin.append(
-            TxInput(utxo["txid"], utxo["vout"], sequence=seq.for_input_sequence())
-        )
+        txin.append(TxInput(utxo["txid"], utxo["vout"], sequence=seq.for_input_sequence()))
         total_btc = total_btc + utxo["amount"]
 
     if total_btc == 0:
         return print("\nThere aren't any UTXOs :(.")
 
     # Create a fee-less output
-    txout = TxOutput(
-        total_btc - Decimal(0.1), P2pkhAddress(to_addr).to_script_pub_key()
-    )
+    txout = TxOutput(total_btc - Decimal(0.1), P2pkhAddress(to_addr).to_script_pub_key())
 
     # Create dummy transaction (to calculate size)
-    tx = Transaction(
-        [TxInput.copy(inpt) for inpt in txin],
-        [txout],
-        locktime=Locktime(lock).for_transaction(),
-    )
+    tx = Transaction([TxInput.copy(inpt) for inpt in txin], [txout], locktime=Locktime(lock).for_transaction())
+
     # create the redeem script - needed to sign the transaction
     redeem_script = Script(
         [
@@ -97,34 +86,21 @@ def buy_lambo(key, lock, from_addr, to_addr):
         txinput.script_sig = Script([sig, public_key.to_hex(), redeem_script.to_hex()])
 
     # Calculate fees
-    sat_per_byte = requests.get(
-        "https://bitcoinfees.earn.com/api/v1/fees/recommended"
-    ).json()["fastestFee"]
-    fee = Decimal(
-        max(
-            (len(bytes.fromhex(tx.serialize())) * sat_per_byte) / SATOSHIS_PER_BITCOIN,
-            0,
-        )
-    )
+    sat_per_byte = requests.get("https://bitcoinfees.earn.com/api/v1/fees/recommended").json()["fastestFee"]
+    fee = Decimal(max((len(bytes.fromhex(tx.serialize())) * sat_per_byte) / SATOSHIS_PER_BITCOIN, 0))
     if fee == 0:
         print("WARNING: There isn't enough balance to calculate fees.")
 
     # Create final tx with correct txout value
     txout = TxOutput(total_btc - fee, P2pkhAddress(to_addr).to_script_pub_key())
-    tx = Transaction(
-        [TxInput.copy(inpt) for inpt in tx.inputs],
-        [txout],
-        locktime=Locktime(lock).for_transaction(),
-    )
+    tx = Transaction([TxInput.copy(inpt) for inpt in tx.inputs], [txout], locktime=Locktime(lock).for_transaction())
     for ind, txinput in enumerate(tx.inputs):
         sig = private_key.sign_input(tx, ind, redeem_script)
         txinput.script_sig = Script([sig, public_key.to_hex(), redeem_script.to_hex()])
     signed_tx = tx.serialize()
 
     # print raw transaction
-    print(
-        "\nRaw unsigned transaction:\n{}".format(Transaction(txin, [txout]).serialize())
-    )
+    print("\nRaw unsigned transaction:\n{}".format(Transaction(txin, [txout]).serialize()))
 
     # print raw signed transaction ready to be broadcasted
     print("\nRaw signed transaction:\n{}".format(signed_tx))
@@ -133,45 +109,7 @@ def buy_lambo(key, lock, from_addr, to_addr):
     # Check if is valid and send it
     if chain.testmempoolaccept([signed_tx])[0]["allowed"]:
         chain.sendrawtransaction(signed_tx)
-        print(
-            "\nSent to Block-chain! Have fun with those {} BTC.".format(total_btc - fee)
-        )
+        print("\nSent to Block-chain! Have fun with those {} BTC.".format(total_btc - fee))
     else:
         print("\nCan't send (yet)!")
-        print(
-            "Reason: `{}`".format(
-                chain.testmempoolaccept([signed_tx])[0]["reject-reason"]
-            )
-        )
-
-
-if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument(
-        "--priv_key", dest="priv_key", required=True, type=str, help="Private key used."
-    )
-    parser.add_argument(
-        "--lock",
-        dest="lock",
-        required=True,
-        type=int,
-        help="Time used to lock the address. If <500 million is treated as block height, else as UNIX time.",
-    )
-    parser.add_argument(
-        "--from_addr",
-        dest="from_addr",
-        required=True,
-        type=str,
-        help="Address to get from.",
-    )
-    parser.add_argument(
-        "--to_addr", dest="to_addr", required=True, type=str, help="Address to send to."
-    )
-    args = parser.parse_args()
-
-    buy_lambo(
-        key=args.priv_key,
-        lock=args.lock,
-        from_addr=args.from_addr,
-        to_addr=args.to_addr,
-    )
+        print("Reason: `{}`".format(chain.testmempoolaccept([signed_tx])[0]["reject-reason"]))
